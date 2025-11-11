@@ -48,7 +48,7 @@
   <script src="https://unpkg.com/htmx.org@2.0.0"></script>
 </head>
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
+  <a href="#main" class="skip-link">Skip to main content</a>    
 
   <main class="container" id="main">
     <div id="status" role="status" aria-live="polite" class="visually-hidden"></div>
