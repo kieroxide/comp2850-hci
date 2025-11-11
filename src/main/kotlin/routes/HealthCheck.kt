@@ -26,7 +26,7 @@ fun Routing.configureHealthCheck() {
               "version": "1.0-SNAPSHOT"
             }
             """.trimIndent(),
-            ContentType.Application.Json
+            ContentType.Application.Json,
         )
     }
 }

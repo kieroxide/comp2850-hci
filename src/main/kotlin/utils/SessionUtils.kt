@@ -22,7 +22,7 @@ import java.util.UUID
  * @property id Unique session identifier (UUID)
  */
 data class SessionData(
-    val id: String = UUID.randomUUID().toString()
+    val id: String = UUID.randomUUID().toString(),
 )
 
 /**
@@ -34,9 +34,7 @@ data class SessionData(
  * @param fullId Full UUID session ID
  * @return Short 6-character session ID
  */
-fun shortSessionId(fullId: String): String {
-    return fullId.take(6)
-}
+fun shortSessionId(fullId: String): String = fullId.take(6)
 
 /**
  * Generate a request ID for tracing individual requests within a session.
@@ -46,6 +44,4 @@ fun shortSessionId(fullId: String): String {
  *
  * @return Request ID string
  */
-fun generateRequestId(): String {
-    return "r_${UUID.randomUUID().toString().take(8)}"
-}
+fun generateRequestId(): String = "r_${UUID.randomUUID().toString().take(8)}"
