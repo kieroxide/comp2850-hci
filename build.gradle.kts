@@ -65,10 +65,17 @@ detekt {
     config.setFrom(files("detekt.yml"))
     buildUponDefaultConfig = true
     ignoreFailures = true // Report but don't fail build
+    ignoreFailures = true // Report but don't fail build
 }
 
 // Code quality: ktlint (code style)
 // Reports violations as warnings, doesn't fail build
 configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
     ignoreFailures.set(true) // Report but don't fail build
+}
+
+ktlint {
+    verbose.set(true)
+    android.set(false)
+    outputColorName.set("RED")
 }

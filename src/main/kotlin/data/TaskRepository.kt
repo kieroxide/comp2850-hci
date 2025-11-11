@@ -33,23 +33,11 @@ import java.util.concurrent.atomic.AtomicInteger
 //    import java.io.FileWriter
 //    import java.time.format.DateTimeParseException
 
-/**
- * Simple task data model for Week 6.
- *
- * **Week 7 evolution**: Add `completed: Boolean` field
- * **Week 8 evolution**: Add `createdAt` timestamp for sorting
- */
 data class Task(
     val id: Int,
     var title: String,
 )
 
-/**
- * In-memory repository with CSV persistence.
- *
- * **Simple approach for Week 6**: Singleton object with integer IDs
- * **Week 10 evolution**: Refactor to class with UUID for production-readiness
- */
 object TaskRepository {
     private val file = File("data/tasks.csv")
     private val tasks = mutableListOf<Task>()
@@ -85,12 +73,6 @@ object TaskRepository {
         if (removed) persist()
         return removed
     }
-
-    // TODO: Week 7 Lab 1 Activity 2 Step 6
-    // Add find() and update() methods here
-    // Follow instructions in mdbook to implement:
-    // - fun find(id: Int): Task?
-    // - fun update(task: Task)
 
     private fun persist() {
         file.writeText("id,title\n" + tasks.joinToString("\n") { "${it.id},${it.title}" })
