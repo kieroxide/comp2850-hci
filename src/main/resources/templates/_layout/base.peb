@@ -5,46 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title | default("COMP2850 Task Manager") }}</title>
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@2/css/pico.min.css">
-  <style>
-    /* Visually hidden but accessible to screen readers */
-    .visually-hidden {
-      position: absolute !important;
-      clip: rect(1px, 1px, 1px, 1px);
-      padding: 0 !important;
-      border: 0 !important;
-      height: 1px !important;
-      width: 1px !important;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    /* Skip link (keyboard only) */
-    .skip-link {
-      position: absolute;
-      left: -10000px;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-    }
-    .skip-link:focus {
-      position: static;
-      width: auto;
-      height: auto;
-      background: #1976d2;
-      color: white;
-      padding: 0.5rem 1rem;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    /* ARIA live region styling */
-    #status:not(:empty) {
-      background: #e3f2fd;
-      border-left: 4px solid #1976d2;
-      padding: 1rem;
-      margin: 1rem 0;
-    }
-  </style>
   <script src="https://unpkg.com/htmx.org@2.0.0"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,6 +17,7 @@
     {# HTMX for progressive enhancement #}
     <script src="/static/js/htmx-1.9.12.min.js" defer></script>
 </head>
+
 <body>
     {# Skip link for keyboard navigation (WCAG 2.4.1) #}
     <a class="skip-link" href="#main">Skip to main content</a>
