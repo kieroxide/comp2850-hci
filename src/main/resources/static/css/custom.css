@@ -252,15 +252,17 @@ select:focus {
   }
 }
 
-/* ========================================
-   INTENTIONAL ACCESSIBILITY ISSUES
-   (For Week 7 Lab 2 audit exercise)
-   ======================================== */
+    /* Override Pico.css button color for WCAG 1.4.3 AA compliance */
+    button[type="submit"],
+    button,
+    input[type="submit"],
+    [role="button"] {
+        /* override Pico's CSS variables for buttons */
+        --pico-background-color: #FFFFFF !important;
+        --pico-border-color: #FFFFFF !important;
+        --pico-color: #495057 !important;
 
-/* Issue: Button color contrast fails WCAG 1.4.3 (AA)
-   Color #6c757d on white background = 4.2:1 contrast (needs 4.5:1)
-   Students will discover this with axe DevTools and fix in Week 7 Lab 2 */
-button[type="submit"],
-button {
-  color: #6c757d;
-}
+        /* fallback / direct properties */
+        background-color: #FFFFFF !important;
+        color: #495057 !important; /* 7:1 contrast (passes AAA) */
+    }

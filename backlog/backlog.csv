@@ -1,1 +1,7 @@
 id,title,story_ref,story_type,need,type,severity,inclusion_risk,evidence,notes,candidate_fix
+9,Delete button text contrast 4.2:1 (fails AA),wk07/audit/axe-report.md#Issue2,WCAG violation,Visibility,Accessibility,High,"Low vision,Situational","axe: color-contrast; WCAG 1.4.3","Pico.css default gray #6c757d on white = 4.2:1; needs 4.5:1",true
+10,Focus outline too faint (Pico.css default),wk07/audit/wcag-checklist.md#2.4.7,WCAG partial,Visibility,Accessibility,Medium,Keyboard,"Manual test: outline visible but faint","Add custom :focus { outline: 3px solid #1976d2; }",true
+11,No confirmation for delete action,wk07/audit/heuristics.md#H3,Heuristic violation,Error prevention,Usability,Medium,"Motor,Cognitive","Nielsen H3 + H5","Accidental clicks cause permanent deletion; add confirmation dialog",false
+12,No undo feature for delete,wk07/audit/heuristics.md#H3,Heuristic violation,Customer control,Usability,Low,"Motor,
+Cognitive","Nielsen H3","Defer to Semester 2; requires state management",false
+13,No help documentation or tooltips,wk07/audit/heuristics.md#H10,Heuristic violation,Learning support,Usability,Low,Cognitive,"Nielsen H10","Defer to Semester 2; low priority",false
