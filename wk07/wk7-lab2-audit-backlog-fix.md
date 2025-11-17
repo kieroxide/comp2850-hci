@@ -386,7 +386,7 @@ Create `wk07/audit/wcag-checklist.md`:
 **Contrast testing** (1.4.3):
 1. Open DevTools → Inspect element
 2. Check computed color values
-3. Use [WebAIM Contrast Checker](https://webaim.org/re../../references/contrastchecker/)
+3. Use [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
    - Foreground: #6c757d
    - Background: #ffffff
    - **Result**: 4.2:1 (fails AA)
@@ -766,7 +766,7 @@ button {
 ```
 
 **2. Contrast calculator**:
-- Visit [WebAIM Contrast Checker](https://webaim.org/re../../references/contrastchecker/)
+- Visit [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
 - Foreground: #495057
 - Background: #ffffff
 - **Result**: 7.0:1 (Pass AAA) ✅

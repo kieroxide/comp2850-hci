@@ -821,9 +821,7 @@ Key findings:
 
 Ready for Week 10 analysis and redesign.
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"
 ```

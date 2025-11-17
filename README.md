@@ -20,13 +20,13 @@ cd comp2850-hci-starter
 ```
 Open http://localhost:8080/tasks
 
-**Requirements**: JDK 17+ installed locally
+**Requirements**: JDK 21+ installed locally
 
-### Lab / FENG (Network) with VSCode
-If you don't have a local machine available, use VSCode from FENG/ RHEL environment:
-1. Connect to network
-2. Open VSCode
-3. Clone and run as above: `./gradlew run`
+### RHEL9 Lab Machines / FENG with VSCode
+**Lab machines** (local install in physical labs) or **FENG** (remote network access to lab machines):
+1. Open VSCode (pre-installed with Java 21)
+2. Clone repo
+3. Run: `./gradlew run`
 
 ### GitHub Codespaces (Not Recommended)
 While functional, Codespaces is not our preferred option:
@@ -94,9 +94,9 @@ While functional, Codespaces is not our preferred option:
 | **Task.kt** | Data model, validation | `src/main/kotlin/model/` |
 | **TaskStore.kt** | CSV persistence | `src/main/kotlin/storage/` |
 | **Logger.kt** | Added in Week 9 lab (students create) | `src/main/kotlin/utils/` |
-| **base.peb** | HTML layout template | `src/main/rereferences/templates/_layout/` |
-| **tasks/index.peb** | Full page view | `src/main/rereferences/templates/tasks/` |
-| **tasks/_item.peb** | Single task partial | `src/main/rereferences/templates/tasks/` |
+| **base.peb** | HTML layout template | `src/main/resources/templates/_layout/` |
+| **tasks/index.peb** | Full page view | `src/main/resources/templates/tasks/` |
+| **tasks/_item.peb** | Single task partial | `src/main/resources/templates/tasks/` |
 
 ---
 
@@ -191,7 +191,7 @@ starter-repo/
 │   │   │   │   └── TaskStore.kt        # CSV persistence
 │   │   │   └── utils/
 │   │   │       └── SessionUtils.kt     # Anonymous sessions (Week 6 baseline)
-│   │   └── rereferences/
+│   │   └── resources/
 │   │       ├── templates/
 │   │       │   ├── _layout/
 │   │       │   │   └── base.peb        # HTML layout
@@ -223,7 +223,7 @@ starter-repo/
 
 | Week | Feature you will implement | Files to modify |
 |------|-----------------------------|-----------------|
-| 7 | Inline edit (view ↔ edit mode) | `src/main/rereferences/templates/tasks/_edit.peb`, new routes in `routes/` |
+| 7 | Inline edit (view ↔ edit mode) | `src/main/resources/templates/tasks/_edit.peb`, new routes in `routes/` |
 | 8 | Pagination & filtering refinements | `utils/Pagination.kt`, `_pager.peb`, task routes |
 | 9 | Instrumentation & metrics logging | `utils/Logger.kt`, `utils/Timing.kt`, routes |
 | 10 | Analysis scripts & redesign packaging | `wk10/` lab pack + `templates/` updates |
@@ -555,8 +555,6 @@ rm data/tasks.csv
 ---
 
 ## License
-
-Educational use only. COMP2850 module materials © University of Leeds.
 
 **HTMX**: BSD 2-Clause License
 **Pico CSS**: MIT License

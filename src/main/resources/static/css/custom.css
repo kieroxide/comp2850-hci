@@ -137,7 +137,7 @@ select:focus {
 .task-item {
   padding: 1rem;
   margin-bottom: 0.75rem;
-  border: 1px solid var(--pico-muted-border-color, #ddd);
+  border: 2px solid var(--pico-muted-border-color, #ddd);
   border-radius: 4px;
   display: flex;
   justify-content: space-between;
@@ -250,4 +250,17 @@ select:focus {
   #status {
     display: none;
   }
+}
+
+/* ========================================
+   INTENTIONAL ACCESSIBILITY ISSUES
+   (For Week 7 Lab 2 audit exercise)
+   ======================================== */
+
+/* Issue: Button color contrast fails WCAG 1.4.3 (AA)
+   Color #6c757d on white background = 4.2:1 contrast (needs 4.5:1)
+   Students will discover this with axe DevTools and fix in Week 7 Lab 2 */
+button[type="submit"],
+button {
+  color: #6c757d;
 }

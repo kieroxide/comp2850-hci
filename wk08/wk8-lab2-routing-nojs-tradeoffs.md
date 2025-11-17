@@ -953,9 +953,7 @@ wk8s2: dual-path validation, no-JS parity, trade-offs doc
 
 Trade-off accepted: No-JS delete has no confirmation (documented in constraints)
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"
 ```

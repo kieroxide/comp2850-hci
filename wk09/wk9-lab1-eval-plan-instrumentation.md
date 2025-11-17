@@ -1364,9 +1364,7 @@ wk9s1: evaluation plan + server-side instrumentation
 
 Ready for peer pilots in Week 9 Lab 2.
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"
 ```

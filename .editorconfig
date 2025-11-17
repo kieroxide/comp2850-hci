@@ -14,3 +14,5 @@ ij_kotlin_packages_to_use_import_on_demand = io.ktor.server.application.**,io.kt
 ktlint_standard_no-wildcard-imports = disabled
 # Allow comments in import lists (for documentation)
 ktlint_standard_import-ordering = disabled
+# Allow EOL comments after KDoc (for week-by-week import documentation)
+ktlint_standard_kdoc-wrapping = disabled

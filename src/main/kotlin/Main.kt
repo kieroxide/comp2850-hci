@@ -15,6 +15,30 @@ import java.io.StringWriter
 import io.ktor.util.*
 
 /**
+ * NOTE FOR NON-INTELLIJ IDEs (VSCode, Eclipse, etc.):
+ * IntelliJ IDEA automatically adds imports as you type. If using a different IDE,
+ * you may need to manually add imports. The commented imports below show what you'll need
+ * for future weeks. Uncomment them as needed when following the lab instructions.
+ *
+ * When using IntelliJ: You can ignore the commented imports below - your IDE will handle them.
+ */
+
+// Week 7+ imports (inline edit routes):
+// import routes.configureEditRoutes  // Separate route file for edit functionality
+
+// Week 8+ imports (status pages, error handling):
+// import io.ktor.http.ContentType     // For custom error page content types
+// import io.ktor.http.HttpStatusCode  // For status codes in error handlers
+// import io.ktor.server.plugins.statuspages.*  // Status pages plugin (StatusPages, status)
+
+// Week 9+ imports (request tracking, metrics):
+// import utils.ReqIdKey                // AttributeKey for request ID tracking
+// import utils.generateRequestId       // Generate unique request IDs for logging
+// Note: ApplicationCallPipeline is covered by io.ktor.server.application.*
+
+// Week 9 also adds ApplicationCallPipeline.Setup intercept in configureRouting() for session/reqId
+
+/**
  * Main entry point for COMP2850 HCI server-first application.
  *
  * **Architecture**:

@@ -1,13 +1,13 @@
 plugins {
     application
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm") version "2.2.21"
     id("io.ktor.plugin") version "2.3.11"
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
 }
 
 group = "uk.ac.leeds.comp2850"
-version = "1.0-SNAPSHOT"
+version = "1.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -39,7 +39,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("io.ktor:ktor-client-content-negotiation-jvm:$ktorVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.0.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.2.21")
 }
 
 application {
@@ -56,7 +56,7 @@ tasks.withType<JavaExec> {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 // Code quality: Detekt (static analysis)
@@ -71,10 +71,4 @@ detekt {
 // Reports violations as warnings, doesn't fail build
 configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
     ignoreFailures.set(true) // Report but don't fail build
-}
-
-ktlint {
-    verbose.set(true)
-    android.set(false)
-    outputColorName.set("RED")
 }
