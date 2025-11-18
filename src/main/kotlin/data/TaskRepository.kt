@@ -38,6 +38,14 @@ data class Task(
     var title: String,
 )
 
+data class Page<T>(
+    val items: List<T>,
+    val total: Int,
+    val size: Int,
+    val number: Int,
+    val totalPages: Int
+)
+
 object TaskRepository {
     private val file = File("data/tasks.csv")
     private val tasks = mutableListOf<Task>()
@@ -79,6 +87,22 @@ object TaskRepository {
     }
 
     fun find(id: Int): Task? = tasks.find { it.id == id }
+
+
+    fun search(query: String = "", page: Int = 1, size: Int = 10): Page<Task> {
+        val filtered = if (query.isBlank()) tasks else tasks.filter { it.title.contains(query, ignoreCase = true) }
+
+        val total = filtered.size
+        val pageSize = maxOf(1, size)
+        val totalPages = maxOf(1, (total + pageSize - 1) / pageSize)
+        val pageNumber = page.coerceIn(1, totalPages)
+
+        val fromIndex = (pageNumber - 1) * pageSize
+        val toIndex = minOf(fromIndex + pageSize, total)
+        val pageItems = if (fromIndex >= total) emptyList() else filtered.subList(fromIndex, toIndex)
+
+        return Page(items = pageItems, total = total, size = pageSize, number = pageNumber, totalPages = totalPages)
+    }
 
     fun update(task: Task) {
         tasks.find { it.id == task.id }?.let { it.title = task.title }

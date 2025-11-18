@@ -9,62 +9,8 @@ import io.ktor.server.routing.*
 import io.pebbletemplates.pebble.PebbleEngine
 import java.io.StringWriter
 
-/**
- * NOTE FOR NON-INTELLIJ IDEs (VSCode, Eclipse, etc.):
- * IntelliJ IDEA automatically adds imports as you type. If using a different IDE,
- * you may need to manually add imports. The commented imports below show what you'll need
- * for future weeks. Uncomment them as needed when following the lab instructions.
- *
- * When using IntelliJ: You can ignore the commented imports below - your IDE will handle them.
- */
-
-// Week 7+ imports (inline edit, toggle completion):
-// import model.Task               // When Task becomes separate model class
-// import model.ValidationResult   // For validation errors
-// import renderTemplate            // Extension function from Main.kt   <- removed
-// import isHtmxRequest             // Extension function from Main.kt   <- removed
-
-// Week 8+ imports (pagination, search, URL encoding):
-// import utils.Page                       // Pagination helper class
-import io.ktor.server.sessions.* // added
-import utils.SessionData
-// Week 9+ imports (metrics logging, instrumentation):
-// import utils.jsMode              // Detect JS mode (htmx/nojs)
-// import utils.logValidationError  // Log validation failures
-// import utils.timed               // Measure request timing
-
-// Note: Solution repo uses storage.TaskStore instead of data.TaskRepository
-// You may refactor to this in Week 10 for production readiness
-
-/**
- * NOTE FOR NON-INTELLIJ IDEs (VSCode, Eclipse, etc.):
- * IntelliJ IDEA automatically adds imports as you type. If using a different IDE,
- * you may need to manually add imports. The commented imports below show what you'll need
- * for future weeks. Uncomment them as needed when following the lab instructions.
- *
- * When using IntelliJ: You can ignore the commented imports below - your IDE will handle them.
- */
-
-// Week 7+ imports (inline edit, toggle completion):
-// import model.Task               // When Task becomes separate model class
-// import model.ValidationResult   // For validation errors
-// import renderTemplate            // Extension function from Main.kt
-// import isHtmxRequest             // Extension function from Main.kt
-
-// Week 8+ imports (pagination, search, URL encoding):
-// import utils.Page                       // Pagination helper class
-import io.ktor.server.sessions.* // added
-import utils.SessionData
-// Week 9+ imports (metrics logging, instrumentation):
-// import utils.jsMode              // Detect JS mode (htmx/nojs)
-// import utils.logValidationError  // Log validation failures
-// import utils.timed               // Measure request timing
-
-// Note: Solution repo uses storage.TaskStore instead of data.TaskRepository
-// You may refactor to this in Week 10 for production readiness
-
 fun Route.taskRoutes() {
- val pebble = PebbleEngine.Builder()
+    val pebble = PebbleEngine.Builder()
         .loader(io.pebbletemplates.pebble.loader.ClasspathLoader().apply {
             prefix = "templates/"
         })
@@ -78,42 +24,54 @@ fun Route.taskRoutes() {
 
     /**
      * GET /tasks - List all tasks
-     * Returns full page (no HTMX differentiation in Week 6)
      */
     get("/tasks") {
         val query = call.request.queryParameters["q"].orEmpty()
         val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
-        val data = repo.search(query = query, page = page, size = 10)
+        val data = TaskRepository.search(query = query, page = page, size = 10)
         val model = mapOf("title" to "Tasks", "page" to data, "query" to query)
-        call.respondHtml(PebbleRender.render("tasks/index.peb", model))
+
+        // Render using local pebble engine
+        val template = pebble.getTemplate("tasks/index.peb")
+        val writer = StringWriter()
+        template.evaluate(writer, model)
+        call.respondText(writer.toString(), ContentType.Text.Html)
     }
 
     get("/tasks/fragment") {
         val query = call.request.queryParameters["q"].orEmpty()
-        val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
-        val data = repo.search(query = query, page = page, size = 10)
-        val list = PebbleRender.render("tasks/_list.peb", mapOf("page" to data, "query" to query))
-        val pager = PebbleRender.render("tasks/_pager.peb", mapOf("page" to data, "query" to query))
+        val pageNum = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
+        val data = TaskRepository.search(query = query, page = pageNum, size = 10)
+
+        // Render list fragment
+        val listWriter = StringWriter()
+        val listTemplate = pebble.getTemplate("tasks/_list.peb")
+        listTemplate.evaluate(listWriter, mapOf("page" to data, "query" to query))
+
+        // Render pager fragment
+        val pagerWriter = StringWriter()
+        val pagerTemplate = pebble.getTemplate("tasks/_pager.peb")
+        pagerTemplate.evaluate(pagerWriter, mapOf("page" to data, "query" to query))
+
         val status = """<div id="status" hx-swap-oob="true">Found ${data.total} tasks.</div>"""
-        call.respondText(list + pager + status, ContentType.Text.Html)
+        call.respondText(listWriter.toString() + pagerWriter.toString() + status, ContentType.Text.Html)
     }
-    /** = call.request.queryParameters["q"].orEmpty()
-        val
-     * POST /tasks - Add new task
-     * Dual-mode: HTMX fragment or PRG redirect
+
+    /**
+     * POST /tasks - Add new task (HTMX fragment or PRG)
      */
     post("/tasks") {
-        val title = call.receiveParameters()["title"].orEmpty().trim()
+        // receiveParameters() returns Parameters; extract the "title" string explicitly
+        val params = call.receiveParameters()
+        val title = params["title"].orEmpty().trim()
 
         if (title.isBlank()) {
-            // Validation error handling
             if (call.isHtmx()) {
                 val error = """<div id="status" hx-swap-oob="true" role="alert" aria-live="assertive">
                     Title is required. Please enter at least one character.
                 </div>"""
                 return@post call.respondText(error, ContentType.Text.Html, HttpStatusCode.BadRequest)
             } else {
-                // No-JS: redirect back (could add error query param)
                 call.response.headers.append("Location", "/tasks")
                 return@post call.respond(HttpStatusCode.SeeOther)
             }
@@ -122,7 +80,6 @@ fun Route.taskRoutes() {
         val task = TaskRepository.add(title)
 
         if (call.isHtmx()) {
-            // Return HTML fragment for new task
             val fragment = """<li id="task-${task.id}">
                 <span>${task.title}</span>
                 <form action="/tasks/${task.id}/delete" method="post" style="display: inline;"
@@ -132,13 +89,10 @@ fun Route.taskRoutes() {
                   <button type="submit" aria-label="Delete task: ${task.title}">Delete</button>
                 </form>
             </li>"""
-
             val status = """<div id="status" hx-swap-oob="true">Task "${task.title}" added successfully.</div>"""
-
             return@post call.respondText(fragment + status, ContentType.Text.Html, HttpStatusCode.Created)
         }
 
-        // No-JS: POST-Redirect-GET pattern (303 See Other)
         call.response.headers.append("Location", "/tasks")
         call.respond(HttpStatusCode.SeeOther)
     }
