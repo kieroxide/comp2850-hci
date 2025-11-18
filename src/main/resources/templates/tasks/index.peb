@@ -19,20 +19,26 @@
   </form>
 </section>
 
+
+<form action="/tasks" method="get"
+      hx-get="/tasks/fragment"
+      hx-target="#task-area"
+      hx-trigger="keyup changed delay:300ms, submit from:closest(form)"
+      hx-push-url="true">
+  <label for="q">Filter tasks</label>
+  <input id="q" name="q" value="{{ query|default('') }}" type="search"
+         aria-describedby="q-hint">
+  <small id="q-hint">Type to filter; works without JavaScript.</small>
+  <button type="submit">Apply</button>
+</form>
+
 <section aria-labelledby="list-heading">
   <h2 id="list-heading">Current tasks ({{ tasks | length }})</h2>
   {# Minor Issue: Image without alt text for Week 7 Lab 2 discovery #}
   <img src="/static/img/icon.png" width="16" height="16">
-  <ul id="task-list">
-    {% for task in tasks %}
-      {% if editingId and editingId == task.id %}
-        {% include "tasks/_edit.peb" with {"task": task, "error": errorMessage} %}
-      {% else %}
-        {% include "tasks/_item.peb" with {"task": task} %}
-      {% endif %}
-    {% else %}
-      <li>No tasks yet. Add one above!</li>
-    {% endfor %}
-  </ul>
+  <div id="task-area">
+    {% include "tasks/_list.peb"%}
+    {% include "tasks/_pager.peb"%}
+  </div>
 </section>
 {% endblock %}
